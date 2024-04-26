@@ -1,42 +1,45 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService, NbColorHelper } from '@nebular/theme';
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { NbThemeService, NbColorHelper } from "@nebular/theme";
+import randomHex from "../../../utils/randomHex";
 
 @Component({
-  selector: 'ngx-chartjs-radar',
-  template: `
-    <chart type="radar" [data]="data" [options]="options"></chart>
-  `,
+  selector: "ngx-chartjs-radar",
+  template: ` <chart type="radar" [data]="data" [options]="options"></chart> `,
 })
-export class ChartjsRadarComponent implements OnDestroy {
+export class ChartjsRadarComponent implements OnDestroy, OnInit {
   options: any;
   data: {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+  @Input() labels: string[];
+  @Input() values: number[];
 
-      const colors: any = config.variables;
+  constructor(private theme: NbThemeService) {}
+
+  ngOnInit(): void {
+    this.themeSubscription = this.theme.getJsTheme().subscribe((config) => {
       const chartjs: any = config.variables.chartjs;
 
+      const _datasets = this.values.map((item, index) => {
+        const color = randomHex();
+        const value = {
+          data: item,
+          label: "Series " + index,
+          borderColor: color,
+          backgroundColor: NbColorHelper.hexToRgbA(color, 0.5),
+        };
+        return value;
+      });
+
       this.data = {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-        datasets: [{
-          data: [65, 59, 90, 81, 56, 55, 40],
-          label: 'Series A',
-          borderColor: colors.danger,
-          backgroundColor: NbColorHelper.hexToRgbA(colors.dangerLight, 0.5),
-        }, {
-          data: [28, 48, 40, 19, 96, 27, 100],
-          label: 'Series B',
-          borderColor: colors.warning,
-          backgroundColor: NbColorHelper.hexToRgbA(colors.warningLight, 0.5),
-        }],
+        labels: this.labels,
+        datasets: _datasets,
       };
 
       this.options = {
         responsive: true,
         maintainAspectRatio: false,
-        scaleFontColor: 'white',
+        scaleFontColor: "white",
         legend: {
           labels: {
             fontColor: chartjs.textColor,

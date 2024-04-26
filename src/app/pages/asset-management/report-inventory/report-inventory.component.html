@@ -1,0 +1,98 @@
+<div class="row" *ngIf="isLoaded">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header> Tổng số tài sản của từng phòng </nb-card-header>
+      <nb-card-body>
+        <nb-select
+          filled
+          status="primary"
+          class="mb-4"
+          [selected]="assetsEachRoom.selectedLabels"
+          multiple
+          placeholder="Select Rooms"
+          (selectedChange)="onAssetsEachRoomSelect($event)"
+        >
+          <nb-option
+            *ngFor="let label of assetsEachRoom.labels"
+            value="{{ label }}"
+          >
+            {{ label }}
+          </nb-option>
+        </nb-select>
+        <ngx-chartjs-pie
+          [labels]="assetsEachRoom.selectedLabels"
+          [values]="assetsEachRoom.selectedValues"
+          [limit]="limit"
+        ></ngx-chartjs-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header> Chi tiết tài sản theo phòng </nb-card-header>
+      <nb-card-body>
+        <nb-select
+          filled
+          status="primary"
+          class="mb-4"
+          [selected]="assetsAllRooms.selectedItem"
+          placeholder="Select Room"
+          (selectedChange)="onAssetsAllRoomsSelect($event)"
+        >
+          <nb-option
+            *ngFor="let label of assetsAllRooms.labels"
+            value="{{ label }}"
+          >
+            {{ label }}
+          </nb-option>
+        </nb-select>
+        <ngx-chartjs-pie
+          [labels]="assetsAllRooms.selectedLabels"
+          [values]="assetsAllRooms.selectedValues"
+          [limit]="limit"
+        ></ngx-chartjs-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header> Thống kế chênh lệch số lượng tài sản </nb-card-header>
+      <nb-card-body>
+        <nb-select
+          class="mb-4"
+          filled
+          status="primary"
+          [selected]="differenceAssetsEachRoom.selectedLabels"
+          multiple
+          placeholder="Select Rooms"
+          (selectedChange)="onDifferenceAssetsEachRoomSelect($event)"
+        >
+          <nb-option
+            *ngFor="let label of differenceAssetsEachRoom.labels"
+            value="{{ label }}"
+          >
+            {{ label }}
+          </nb-option>
+        </nb-select>
+        <ngx-chartjs-bar
+          [datasets]="differenceAssetsEachRoom.datasets"
+          [labels]="differenceAssetsEachRoom.selectedLabels"
+        ></ngx-chartjs-bar>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-12">
+    <nb-card>
+      <nb-card-header>
+        Danh sách tài sản
+        <button nbButton status="info" (click)="exportTableData()">
+          Export to CSV
+        </button>
+      </nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source">
+        </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

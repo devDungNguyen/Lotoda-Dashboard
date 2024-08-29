@@ -45,28 +45,28 @@ import { BASE_URL } from "./utils/definitions";
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
-    NbAuthModule.forRoot({
-      strategies: [
-        NbPasswordAuthStrategy.setup({
-          name: "email",
-          baseEndpoint: BASE_URL,
-          token: {
-            class: NbAuthJWTToken,
-            key: "access_token",
-          },
-          validation: {},
-          login: {
-            endpoint: "/employee-auth/login",
-            method: "post",
-          },
-          register: {
-            endpoint: "/employee-auth/register",
-            method: "post",
-          },
-        }),
-      ],
-      forms: {},
-    }),
+    // NbAuthModule.forRoot({
+    //   strategies: [
+    //     NbPasswordAuthStrategy.setup({
+    //       name: "email",
+    //       baseEndpoint: BASE_URL,
+    //       token: {
+    //         class: NbAuthJWTToken,
+    //         key: "access_token",
+    //       },
+    //       validation: {},
+    //       login: {
+    //         endpoint: "/employee-auth/login",
+    //         method: "post",
+    //       },
+    //       register: {
+    //         endpoint: "/employee-auth/register",
+    //         method: "post",
+    //       },
+    //     }),
+    //   ],
+    //   forms: {},
+    // }),
   ],
   bootstrap: [AppComponent],
 })

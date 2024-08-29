@@ -14,10 +14,10 @@ import { RoleCheckGuard } from "./guards/role-check.guard";
 export const routes: Routes = [
   {
     path: "pages",
-    canActivate: [RoleCheckGuard],
-    data: {
-      role: Role.CHIEF,
-    },
+    // canActivate: [RoleCheckGuard],
+    // data: {
+    //   role: Role.CHIEF,
+    // },
     loadChildren: () =>
       import("./pages/pages.module").then((m) => m.PagesModule),
   },
